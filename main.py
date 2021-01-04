@@ -15,14 +15,14 @@ args = parser.parse_args()
 test_mode=args.test
 
 # NB: mode P means 8 bit indexed; i might later just make two grayscale images one for each color instead of doing an indexed color version and splitting it out.
-black = Image.new(mode='1', size=(296, 152), color=(255))
+black = Image.new(mode='1', size=(152, 296), color=(255))
 
 draw = ImageDraw.Draw(black)
 draw.line((0, 0) + black.size, fill=0)
 draw.line((0, black.size[1], black.size[0], 0), fill=0)
 del draw
 
-red = Image.new(mode='1', size=(296, 152), color=(255))
+red = Image.new(mode='1', size=(152, 296), color=(255))
 
 draw = ImageDraw.Draw(red)
 draw.line((0, 0) + red.size, fill=0)
