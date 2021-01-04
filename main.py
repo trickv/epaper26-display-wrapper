@@ -16,15 +16,15 @@ test_mode=args.test
 black = Image.new(mode='1', size=(296, 152), color=(255))
 
 draw = ImageDraw.Draw(black)
-draw.line((0, 0) + black.size, fill=128)
-draw.line((0, black.size[1], black.size[0], 0), fill=128)
+draw.line((0, 0) + black.size, fill=0)
+draw.line((0, black.size[1], black.size[0], 0), fill=0)
 del draw
 
 red = Image.new(mode='1', size=(296, 152), color=(255))
 
-draw = ImageDraw.Draw(black)
-draw.line((0, 0) + red.size, fill=128)
-draw.line((0, red.size[1], red.size[0], 0), fill=128)
+draw = ImageDraw.Draw(red)
+draw.line((0, 0) + red.size, fill=0)
+draw.line((0, red.size[1] - 10, red.size[0] - 10, 10), fill=0)
 del draw
 
 
