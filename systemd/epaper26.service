@@ -1,0 +1,7 @@
+[Unit]
+Description=Runs epaper26 display code periodically to update the display
+
+[Service]
+User=trick
+Type=oneshot
+ExecStart=/home/trick/src/github.com/trickv/epaper26-display-wrapper/run

@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer to run epaper26 service regularly
+
+[Timer]
+OnCalendar=*:*:0
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+find systemd/* | xargs realpath | xargs -n 1 -I {} sudo ln -s {} /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable epaper26.timer
+sudo systemctl start epaper26.timer
