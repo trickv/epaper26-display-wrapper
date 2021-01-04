@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import datetime
 import argparse
 
 from PIL import Image
@@ -25,6 +26,8 @@ red = Image.new(mode='1', size=(296, 152), color=(255))
 draw = ImageDraw.Draw(red)
 draw.line((0, 0) + red.size, fill=0)
 draw.line((0, red.size[1] - 10, red.size[0] - 10, 10), fill=0)
+time = datetime.datetime.now().strftime("%H:%M")
+draw.text((30, 50), time, fill=0)
 del draw
 
 
