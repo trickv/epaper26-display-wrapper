@@ -6,6 +6,7 @@ import argparse
 
 from PIL import Image
 from PIL import ImageDraw
+from PIL import ImageFont
 
 
 parser = argparse.ArgumentParser()
@@ -26,8 +27,9 @@ red = Image.new(mode='1', size=(296, 152), color=(255))
 draw = ImageDraw.Draw(red)
 draw.line((0, 0) + red.size, fill=0)
 draw.line((0, red.size[1] - 10, red.size[0] - 10, 10), fill=0)
+font = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf", 25)
 time = datetime.datetime.now().strftime("%H:%M")
-draw.text((30, 50), time, fill=0)
+draw.text((30, 50), time, fill=0, font=font)
 del draw
 
 
