@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
+cd $(dirname $(realpath $0))
 source ./activate
 ./main.py
