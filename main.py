@@ -4,16 +4,20 @@ import os
 import datetime
 import pytz
 import argparse
+from filelock import Timeout, FileLock
 
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--test", action="store_true", help="Test mode which uses xv to display the generated image locally")
 args = parser.parse_args()
 test_mode=args.test
+
+lockfile_path = ".run-lock"
+lock = FileLock(lockfile_path, timeout=0.01)
+lock.acquire()
 
 font30 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf", 30)
 font15 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 15)

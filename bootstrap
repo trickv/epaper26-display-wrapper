@@ -6,6 +6,7 @@ ln -s env/bin/activate ./activate
 source ./activate
 pip install pillow
 pip install pytz
+pip install filelock
 git submodule update --init
 cd buydisplay-epaper26-example-adaptation/wiringpi/
 make
