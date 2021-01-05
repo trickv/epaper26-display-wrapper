@@ -19,16 +19,17 @@ font30 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd
 font15 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 15)
 
 # NB: mode P means 8 bit indexed; i might later just make two grayscale images one for each color instead of doing an indexed color version and splitting it out.
-black = Image.new(mode='1', size=(152, 296), color=(255))
-red = Image.new(mode='1', size=(152, 296), color=(255))
+size=(152, 296)
+black = Image.new(mode='1', size=size, color=(255))
+red = Image.new(mode='1', size=size, color=(255))
 
 draw_black = ImageDraw.Draw(black)
 draw_red = ImageDraw.Draw(red)
 
-draw_black.line((0, 0, black.size[0], 0), fill=0)
-draw_black.line((0, black.size[1] - 1, black.size[0] - 1, black.size[1] - 1), fill=0)
-draw_red.line((0, 0) + red.size, fill=0)
-draw_red.line((0, red.size[1] - 10, red.size[0] - 10, 10), fill=0)
+draw_black.line((0, 0, size[0], 0), fill=0)
+draw_black.line((0, size[1] - 1, size[0] - 1, size[1] - 1), fill=0)
+draw_red.line((0, 0) + size, fill=0)
+draw_red.line((0, size[1] - 10, size[0] - 10, 10), fill=0)
 
 utc_now_datetime = pytz.utc.localize(datetime.datetime.now())
 now_chicago = utc_now_datetime.astimezone(pytz.timezone("America/Chicago")).strftime("%H:%M")
