@@ -28,8 +28,8 @@ draw_red = ImageDraw.Draw(red)
 
 draw_black.line((0, 0, size[0], 0), fill=0)
 draw_black.line((0, size[1] - 1, size[0] - 1, size[1] - 1), fill=0)
-draw_red.line((0, 0) + size, fill=0)
-draw_red.line((0, size[1] - 10, size[0] - 10, 10), fill=0)
+draw_red.line((0, 0, 0, size[1]), fill=0)
+draw_red.line((size[0] - 1, 0, size[0] - 1, size[1] - 1), fill=0)
 
 utc_now_datetime = pytz.utc.localize(datetime.datetime.now())
 now_chicago = utc_now_datetime.astimezone(pytz.timezone("America/Chicago")).strftime("%H:%M")
