@@ -38,10 +38,28 @@ draw_red.line((size[0] - 1, 0, size[0] - 1, size[1] - 1), fill=0)
 utc_now_datetime = pytz.utc.localize(datetime.datetime.now())
 now_chicago = utc_now_datetime.astimezone(pytz.timezone("America/Chicago")).strftime("%H:%M")
 now_utc = utc_now_datetime.strftime("%H:%M")
-draw_black.text((20, 30), "UTC", fill=0, font=font15)
-draw_red.text((30, 50), now_utc, fill=0, font=font30)
-draw_black.text((20, 90), "Chicago", fill=0, font=font15)
-draw_red.text((30, 110), now_chicago, fill=0, font=font30)
+#draw_black.text((20, 30), "UTC", fill=0, font=font15)
+#draw_red.text((30, 50), now_utc, fill=0, font=font30)
+#draw_black.text((20, 90), "Chicago", fill=0, font=font15)
+import http.client
+conn = http.client.HTTPSConnection("vanstaveren.us")
+conn.request("GET", "/~trick/epaper/now.cgi")
+response = conn.getresponse().read()
+conn.close
+
+import json
+now = json.loads(response)
+solar_now_value = now['data']['result'][0]['value'][1]
+
+solar_today_value = solar_yesterday_value = "-1"
+draw_red.text((2, 2), "Solar:", fill=0, font=font30)
+draw_red.text((10, 35), "Now:", fill=0, font=font15)
+draw_black.text((80, 35), solar_now_value, fill=0, font=font15)
+draw_red.text((10, 55), "Today:", fill=0, font=font15)
+draw_black.text((80, 55), solar_today_value, fill=0, font=font15)
+draw_red.text((10, 75), "Yesterday:", fill=0, font=font15)
+draw_black.text((80, 75), solar_yesterday_value, fill=0, font=font15)
+draw_red.text((50, 190), now_chicago, fill=0, font=font15)
 del draw_red
 del draw_black
 
