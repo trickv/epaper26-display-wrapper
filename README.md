@@ -4,5 +4,5 @@
 
 Packages:
 ```
-sudo apt install python3-dev libjpeg-dev ttf-bitstream-vera
+sudo apt install git virtualenv python3-dev libjpeg-dev ttf-bitstream-vera wiringpi python3-filelock python3-pil
 ```
