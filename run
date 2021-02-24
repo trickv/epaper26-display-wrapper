@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+mkdir -p /dev/shm/epaper-run/
+exec &> /dev/shm/epaper-run/$(date -u +%Y%m%d-%H%M%S).log
+find /dev/shm/epaper-run/ -type f -mtime +2 -print -delete
+
 cd $(dirname $(realpath $0))
+git pull http-readonly master
 source ./activate
 ./main.py
