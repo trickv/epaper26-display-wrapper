@@ -61,8 +61,8 @@ dc_volts = "{0}".format(int(float(now['data']['result'][0]['value'][1])))
 
 solar_today_value = solar_yesterday_value = "-1"
 draw_red.text((2, 2), "Solar:", fill=0, font=font30)
-draw_red.text((10, 35), "Now:", fill=0, font=font15)
-draw_black.text((80, 35), solar_now_value, fill=0, font=font15)
+#draw_red.text((10, 35), "Now:", fill=0, font=font15)
+draw_black.text((0, 45), solar_now_value, fill=0, font=font30)
 #draw_red.text((10, 55), "DC Volts:", fill=0, font=font15)
 #draw_black.text((80, 55), dc_volts, fill=0, font=font15)
 #draw_red.text((10, 75), "Today:", fill=0, font=font15)
