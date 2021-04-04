@@ -42,22 +42,14 @@ now_utc = utc_now_datetime.strftime("%H:%M")
 #draw_red.text((30, 50), now_utc, fill=0, font=font30)
 #draw_black.text((20, 90), "Chicago", fill=0, font=font15)
 import http.client
+import json
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/now-ac-power.cgi")
 response = conn.getresponse().read()
 conn.close
-
-import json
 now = json.loads(response)
 solar_now_value = "{0}".format(int(float(now['data']['result'][0]['value'][1])))
 
-conn = http.client.HTTPSConnection("vanstaveren.us")
-conn.request("GET", "/~trick/epaper/now-dc-volts.cgi")
-response = conn.getresponse().read()
-conn.close
-
-now = json.loads(response)
-dc_volts = "{0}".format(int(float(now['data']['result'][0]['value'][1])))
 
 solar_today_value = solar_yesterday_value = "-1"
 draw_red.text((2, 2), "Solar:", fill=0, font=font30)
