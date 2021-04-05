@@ -19,7 +19,8 @@ lockfile_path = ".run-lock"
 lock = FileLock(lockfile_path, timeout=0.01)
 lock.acquire()
 
-font30 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf", 30)
+font30bold = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf", 30)
+font30 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 30)
 font15 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 15)
 
 # NB: mode P means 8 bit indexed; i might later just make two grayscale images one for each color instead of doing an indexed color version and splitting it out.
@@ -48,27 +49,22 @@ conn.request("GET", "/~trick/epaper/now-ac-power.cgi")
 response = conn.getresponse().read()
 conn.close
 now = json.loads(response)
-solar_now_value = "{0}".format(int(float(now['data']['result'][0]['value'][1])))
+solar_now_value = "{0:.2f} kW".format(float(now['data']['result'][0]['value'][1]) / 1000)
 
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/solaredge-today.cgi")
 response = conn.getresponse().read()
 conn.close
 now = json.loads(response)
-solaredge_today_value = "{0}".format(int(float(now['state'])))
+solaredge_today_value = "{0:.2f} kWh".format(float(now['state']) / 1000)
 
 
-solar_today_value = solar_yesterday_value = "-1"
-draw_red.text((2, 2), "Solar:", fill=0, font=font30)
-#draw_red.text((10, 35), "Now:", fill=0, font=font15)
-draw_black.text((0, 45), solar_now_value, fill=0, font=font30)
-#draw_red.text((10, 55), "DC Volts:", fill=0, font=font15)
-draw_black.text((0, 85), solaredge_today_value, fill=0, font=font30)
-#draw_red.text((10, 75), "Today:", fill=0, font=font15)
-#draw_black.text((80, 75), solar_today_value, fill=0, font=font15)
-#draw_red.text((10, 95), "Yesterday:", fill=0, font=font15)
-#draw_black.text((80, 95), solar_yesterday_value, fill=0, font=font15)
-draw_red.text((50, 190), now_chicago, fill=0, font=font15)
+draw_red.text((2, 2), "Solar:", fill=0, font=font30bold)
+draw_red.text((5, 45), "Now:", fill=0, font=font15)
+draw_black.text((0, 55), solar_now_value, fill=0, font=font30)
+draw_red.text((5, 85), "Today:", fill=0, font=font15)
+draw_black.text((0, 95), solaredge_today_value, fill=0, font=font30)
+draw_red.text((100, 218), now_chicago, fill=0, font=font15)
 del draw_red
 del draw_black
 
