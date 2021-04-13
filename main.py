@@ -70,7 +70,7 @@ conn.request("GET", "/~trick/epaper/my-current-net-metering.cgi")
 response = conn.getresponse().read()
 conn.close()
 now = json.loads(response)
-my_current_net_metering_value = "{0:.0f} kWh".format(float(now['state']) / 1000)
+my_current_net_metering_value = "{0:.0f} kWh".format(float(now['state']))
 
 
 draw_red.text((2, 2), "Solar:", fill=0, font=font30bold)
