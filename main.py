@@ -65,6 +65,13 @@ conn.close()
 now = json.loads(response)
 solaredge_this_month_value = "{0:.0f} kWh".format(float(now['state']) / 1000)
 
+conn = http.client.HTTPSConnection("vanstaveren.us")
+conn.request("GET", "/~trick/epaper/my-current-net-metering.cgi")
+response = conn.getresponse().read()
+conn.close()
+now = json.loads(response)
+my_current_net_metering_value = "{0:.0f} kWh".format(float(now['state']) / 1000)
+
 
 draw_red.text((2, 2), "Solar:", fill=0, font=font30bold)
 draw_red.text((5, 45), "Now:", fill=0, font=font15)
@@ -73,6 +80,8 @@ draw_red.text((5, 85), "Today:", fill=0, font=font15)
 draw_black.text((0, 95), solaredge_today_value, fill=0, font=font30)
 draw_red.text((5, 125), "This Month:", fill=0, font=font15)
 draw_black.text((0, 135), solaredge_this_month_value, fill=0, font=font30)
+draw_red.text((5, 165), "Net:", fill=0, font=font15)
+draw_black.text((0, 175), my_current_net_metering_value, fill=0, font=font30)
 draw_red.text((100, 218), now_chicago, fill=0, font=font15)
 del draw_red
 del draw_black
