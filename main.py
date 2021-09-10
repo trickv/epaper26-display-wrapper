@@ -72,6 +72,20 @@ conn.close()
 now = json.loads(response)
 my_current_net_metering_value = "{0:.2f} kWh".format(float(now['state']))
 
+conn = http.client.HTTPSConnection("vanstaveren.us")
+conn.request("GET", "/~trick/epaper/hass-ecobee-br-sensor.cgi")
+response = conn.getresponse().read()
+conn.close()
+now = json.loads(response)
+br_temperature = "{0:.0f}°".format(float(now['state']))
+
+conn = http.client.HTTPSConnection("vanstaveren.us")
+conn.request("GET", "/~trick/epaper/hass-ecobee-cj-sensor.cgi")
+response = conn.getresponse().read()
+conn.close()
+now = json.loads(response)
+cj_room_temperature = "{0:.0f}°".format(float(now['state']))
+
 
 draw_red.text((2, 2), "Solar:", fill=0, font=font30bold)
 draw_red.text((5, 45), "Now:", fill=0, font=font15)
@@ -82,7 +96,11 @@ draw_black.text((0, 95), solaredge_today_value, fill=0, font=font30)
 #draw_black.text((0, 135), solaredge_this_month_value, fill=0, font=font30)
 draw_red.text((5, 165), "Net:", fill=0, font=font15)
 draw_black.text((0, 175), my_current_net_metering_value, fill=0, font=font30)
-draw_red.text((100, 218), now_chicago, fill=0, font=font15)
+draw_red.text((5, 220), "BR:", fill=0, font=font15)
+draw_black.text((0, 230), br_temperature, fill=0, font=font30)
+draw_red.text((75, 220), "CJ:", fill=0, font=font15)
+draw_black.text((75, 230), cj_room_temperature, fill=0, font=font30)
+draw_red.text((100, 275), now_chicago, fill=0, font=font15)
 del draw_red
 del draw_black
 
