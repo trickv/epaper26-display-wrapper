@@ -2,7 +2,7 @@
 Description=Timer to run epaper26 service regularly
 
 [Timer]
-OnCalendar=*:*:0
+OnCalendar=*:0,15,30,45:0
 Persistent=true
 
 [Install]
