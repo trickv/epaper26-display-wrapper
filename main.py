@@ -64,7 +64,7 @@ conn.request("GET", "/~trick/epaper/hass-tde-projection.cgi")
 response = conn.getresponse().read()
 conn.close()
 now = json.loads(response)
-tde_projection = "{0:.1f} kWh".format(float(now['state']) / 1000)
+tde_projection = "{0:.1f} kWh".format(float(now['state']))
 
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/hass-ecobee-br-sensor.cgi")
