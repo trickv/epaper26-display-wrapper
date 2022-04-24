@@ -90,6 +90,13 @@ now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
 last_update = dateutil.parser.parse(j['last_updated'])
 threshold = datetime.timedelta(hours=1)
 
+conn = http.client.HTTPSConnection("vanstaveren.us")
+conn.request("GET", "/~trick/epaper/hass-net-last-update.cgi")
+response = conn.getresponse().read()
+conn.close()
+json_object = json.loads(response)
+comed_data_age = "{0:.1f}".format(float(json_object['state']))
+
 
 draw_red.text((2, 2), "Solar:", fill=0, font=font30bold)
 draw_red.text((5, 45), "Now:", fill=0, font=font15)
@@ -107,6 +114,7 @@ draw_red.text((5, 220), "BR:", fill=0, font=font15)
 draw_black.text((0, 230), br_temperature, fill=0, font=font30)
 draw_red.text((75, 220), "CJ:", fill=0, font=font15)
 draw_black.text((75, 230), cj_room_temperature, fill=0, font=font30)
+draw_red.text((0, 275), comed_data_age, fill=0, font=font15)
 draw_red.text((100, 275), now_chicago, fill=0, font=font15)
 del draw_red
 del draw_black
