@@ -8,3 +8,10 @@ cd $(dirname $(realpath $0))
 git pull http-readonly master
 source ./activate
 ./main.py
+if [ $? -ne 0 ]; then
+	echo "Error, so let's show kuaile:"
+	cd buydisplay-epaper26-example-adaptation/wiringpi/
+	cp ../../error-black.bmp pic/cw-1rb1.bmp
+	cp ../../error-red.bmp pic/cw-1rb2.bmp
+	./epd
+fi
