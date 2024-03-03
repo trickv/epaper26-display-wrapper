@@ -50,7 +50,11 @@ conn.request("GET", "/~trick/epaper/now-ac-power.cgi")
 response = conn.getresponse().read()
 conn.close()
 now = json.loads(response)
-solar_now_value = "{0:.2f} kW".format(float(now['data']['result'][0]['value'][1]) / 1000)
+try:
+    #solar_now_value = "{0:.2f} kW".format(float(now['data']['result'][0]['value'][1]) / 1000) # prometheus data source
+    solar_now_value = "{0:.2f} kW".format(float(now['state']) / 1000) # hass data source
+except IndexError:
+    solar_now_value = "err"
 
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/solaredge-today.cgi")
