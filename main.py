@@ -52,7 +52,10 @@ conn.close()
 now = json.loads(response)
 try:
     #solar_now_value = "{0:.2f} kW".format(float(now['data']['result'][0]['value'][1]) / 1000) # prometheus data source
-    solar_now_value = "{0:.2f} kW".format(float(now['state']) / 1000) # hass data source
+    if now['state'] == "unavailable":
+        solar_now_value = now['state']
+    else:
+        solar_now_value = "{0:.2f} kW".format(float(now['state']) / 1000) # hass data source
 except IndexError:
     solar_now_value = "err"
 
