@@ -127,14 +127,12 @@ del draw_red
 del draw_black
 
 
+red.save("red.bmp")
+black.save("black.bmp")
 if test_mode:
-    red.save("red.bmp")
-    black.save("black.bmp")
     os.system("convert black.bmp red.bmp -combine combined-testmode.bmp")
     os.system("eog combined-testmode.bmp")
 else:
-    black.save("black.bmp")
-    red.save("red.bmp")
     os.system("cp black.bmp buydisplay-epaper26-example-adaptation/wiringpi/pic/cw-1rb1.bmp")
     os.system("cp red.bmp buydisplay-epaper26-example-adaptation/wiringpi/pic/cw-1rb2.bmp")
     os.system("cd buydisplay-epaper26-example-adaptation/wiringpi/ && ./epd")
