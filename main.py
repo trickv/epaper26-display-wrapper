@@ -105,24 +105,30 @@ json_object = json.loads(response)
 comed_data_age = "{0:.1f}".format(float(json_object['state']))
 
 
-draw_red.text((2, 2), "Solar:", fill=0, font=font30bold)
-draw_red.text((5, 45), "Now:", fill=0, font=font15)
-draw_black.text((0, 55), solar_now_value, fill=0, font=font30)
-draw_red.text((5, 85), "Today:", fill=0, font=font15)
-draw_black.text((0, 95), solaredge_today_value, fill=0, font=font30)
-draw_red.text((5, 125), "Use 24h:", fill=0, font=font15)
-draw_black.text((0, 135), tde_projection, fill=0, font=font30)
-if (now - last_update) < threshold:
-    draw_red.text((5, 165), "Net:", fill=0, font=font15)
-    draw_black.text((0, 175), my_current_net_metering_value, fill=0, font=font30)
-draw_red.text((5, 165), "Net:", fill=0, font=font15)
-draw_black.text((0, 175), my_current_net_metering_value, fill=0, font=font30)
-draw_red.text((5, 220), "BR:", fill=0, font=font15)
-draw_black.text((0, 230), br_temperature, fill=0, font=font30)
-draw_red.text((75, 220), "CJ:", fill=0, font=font15)
-draw_black.text((75, 230), cj_room_temperature, fill=0, font=font30)
+# Draw Solar numbers:
+y_position = 0
+draw_black.text((0, y_position), solar_now_value, fill=0, font=font30)
+y_position += 35
+draw_black.text((0, y_position), solaredge_today_value, fill=0, font=font30)
+y_position += 35
+draw_black.text((0, y_position), tde_projection, fill=0, font=font30)
+y_position += 35
+draw_black.text((0, y_position), my_current_net_metering_value, fill=0, font=font30)
+y_position += 35
+draw_red.line((0, y_position, size[0], y_position), fill=0)
+
+# Now heating & cooling info:
+draw_red.text((5, y_position), "Office:", fill=0, font=font15)
+draw_red.text((75, y_position), "Guest:", fill=0, font=font15)
+y_position += 10
+draw_black.text((0, y_position), br_temperature, fill=0, font=font30)
+draw_black.text((75, y_position), cj_room_temperature, fill=0, font=font30)
+
+# metadata at bottom of screen
 draw_red.text((2, 275), comed_data_age, fill=0, font=font15)
 draw_red.text((100, 275), now_chicago, fill=0, font=font15)
+
+# cleanup
 del draw_red
 del draw_black
 
