@@ -8,7 +8,7 @@ virtualenv --python=python3 --system-site-packages env
 ln -s env/bin/activate ./activate
 source ./activate
 pip install pytz
-pip install python-datetime
+#pip install python-datetime
 git submodule update --init
 cd buydisplay-epaper26-example-adaptation/wiringpi/
 make
