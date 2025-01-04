@@ -128,6 +128,8 @@ del draw_black
 
 
 if test_mode:
+    red.save("red.bmp")
+    black.save("black.bmp")
     os.system("convert black.bmp red.bmp -combine combined-testmode.bmp")
     os.system("eog combined-testmode.bmp")
 else:
