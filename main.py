@@ -73,19 +73,21 @@ conn.close()
 now = json.loads(response)
 tde_projection = "{0:.1f} kWh".format(float(now['state']))
 
-conn = http.client.HTTPSConnection("vanstaveren.us")
-conn.request("GET", "/~trick/epaper/hass-ecobee-br-sensor.cgi")
-response = conn.getresponse().read()
-conn.close()
-now = json.loads(response)
-br_temperature = "{0:.0f}°".format(float(now['state']))
+def get_simple_hass_state(cgi_name, unit):
+    conn = http.client.HTTPSConnection("vanstaveren.us")
+    conn.request("GET", "/~trick/epaper/{}.cgi".format(cgi_name))
+    response = conn.getresponse().read()
+    conn.close()
+    now = json.loads(response)
+    hass_sensor_state = "{0:.0f}{1}".format(float(now['state']), unit)
+    return hass_sensor_state
 
-conn = http.client.HTTPSConnection("vanstaveren.us")
-conn.request("GET", "/~trick/epaper/hass-ecobee-cj-sensor.cgi")
-response = conn.getresponse().read()
-conn.close()
-now = json.loads(response)
-cj_room_temperature = "{0:.0f}°".format(float(now['state']))
+br_temperature = get_simple_hass_state("hass-ecobee-br-sensor", "°")
+cj_room_temperature = get_simple_hass_state("hass-ecobee-cj-sensor", "°")
+
+heat_load_east = get_simple_hass_state("hass-heat-load-east", "%")
+heat_load_west = get_simple_hass_state("hass-heat-load-west", "%")
+heat_load_forced_air = get_simple_hass_state("hass-heat-load-forced-air", "%")
 
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/my-current-net-metering.cgi")
@@ -108,14 +110,15 @@ comed_data_age = "{0:.1f}".format(float(json_object['state']))
 # Draw Solar numbers:
 y_position = 0
 draw_black.text((0, y_position), solar_now_value, fill=0, font=font30)
-y_position += 35
+y_position += 30
 draw_black.text((0, y_position), solaredge_today_value, fill=0, font=font30)
-y_position += 35
+y_position += 30
 draw_black.text((0, y_position), tde_projection, fill=0, font=font30)
-y_position += 35
+y_position += 30
 draw_black.text((0, y_position), my_current_net_metering_value, fill=0, font=font30)
-y_position += 35
+y_position += 30
 draw_red.line((0, y_position, size[0], y_position), fill=0)
+y_position += 5
 
 # Now heating & cooling info:
 draw_red.text((5, y_position), "Office:", fill=0, font=font15)
@@ -123,6 +126,19 @@ draw_red.text((75, y_position), "Guest:", fill=0, font=font15)
 y_position += 10
 draw_black.text((0, y_position), br_temperature, fill=0, font=font30)
 draw_black.text((75, y_position), cj_room_temperature, fill=0, font=font30)
+y_position += 30
+draw_red.text((5, y_position), "Heat Load:", fill=0, font=font15)
+y_position += 15
+draw_red.text((5, y_position), "East:", fill=0, font=font15)
+draw_red.text((80, y_position), "West:", fill=0, font=font15)
+y_position += 15
+draw_black.text((0, y_position), heat_load_east, fill=0, font=font30)
+draw_black.text((80, y_position), heat_load_west, fill=0, font=font30)
+y_position += 30
+draw_red.text((5, y_position), "Forced Air:", fill=0, font=font15)
+y_position += 15
+draw_black.text((0, y_position), heat_load_forced_air, fill=0, font=font30)
+
 
 # metadata at bottom of screen
 draw_red.text((2, 275), comed_data_age, fill=0, font=font15)
