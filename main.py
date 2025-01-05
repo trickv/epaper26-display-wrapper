@@ -118,8 +118,9 @@ draw_black.text((0, y_position), tde_projection, fill=0, font=font30)
 y_position += 30
 draw_black.text((0, y_position), my_current_net_metering_value, fill=0, font=font30)
 y_position += 30
+y_position += 2
 draw_red.line((0, y_position, size[0], y_position), fill=0)
-y_position += 5
+y_position += 3
 
 # Now heating & cooling info:
 draw_red.text((5, y_position), "Office:", fill=0, font=font15)
