@@ -136,7 +136,7 @@ y_position += 15
 draw_black.text((0, y_position), heat_load_east, fill=0, font=font30)
 draw_black.text((80, y_position), heat_load_west, fill=0, font=font30)
 y_position += 30
-draw_red.text((5, y_position), "Forced Air:", fill=0, font=font15)
+draw_red.text((5, y_position), "HVAC:", fill=0, font=font15)
 draw_red.text((75, y_position), "Boiler Set:", fill=0, font=font15)
 y_position += 15
 draw_black.text((0, y_position), heat_load_forced_air, fill=0, font=font30)
