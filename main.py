@@ -88,7 +88,7 @@ cj_room_temperature = get_simple_hass_state("hass-ecobee-cj-sensor", "°")
 heat_load_east = get_simple_hass_state("hass-heat-load-east", "%")
 heat_load_west = get_simple_hass_state("hass-heat-load-west", "%")
 heat_load_forced_air = get_simple_hass_state("hass-heat-load-forced-air", "%")
-boiler_set_point = get_simple_hass_state("hass-boiler-set-point", "")
+boiler_set_point = get_simple_hass_state("hass-boiler-set-point", "°")
 
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/my-current-net-metering.cgi")
