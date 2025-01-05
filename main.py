@@ -22,6 +22,7 @@ lock.acquire()
 
 font30bold = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf", 30)
 font30 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 30)
+fontmedium = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 25)
 font15 = ImageFont.truetype("/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf", 15)
 
 # NB: mode P means 8 bit indexed; i might later just make two grayscale images one for each color instead of doing an indexed color version and splitting it out.
@@ -120,23 +121,23 @@ y_position += 3
 # Now heating & cooling info:
 draw_red.text((5, y_position), "Office:", fill=0, font=font15)
 draw_red.text((75, y_position), "Guest:", fill=0, font=font15)
-y_position += 10
-draw_black.text((0, y_position), br_temperature, fill=0, font=font30)
-draw_black.text((75, y_position), cj_room_temperature, fill=0, font=font30)
-y_position += 30
+y_position += 15
+draw_black.text((0, y_position), br_temperature, fill=0, font=fontmedium)
+draw_black.text((75, y_position), cj_room_temperature, fill=0, font=fontmedium)
+y_position += 25
 draw_red.text((5, y_position), "Heat Load:", fill=0, font=font15)
 y_position += 15
 draw_red.text((5, y_position), "East:", fill=0, font=font15)
 draw_red.text((80, y_position), "West:", fill=0, font=font15)
 y_position += 15
-draw_black.text((0, y_position), heat_load_east, fill=0, font=font30)
-draw_black.text((80, y_position), heat_load_west, fill=0, font=font30)
+draw_black.text((0, y_position), heat_load_east, fill=0, font=fontmedium)
+draw_black.text((80, y_position), heat_load_west, fill=0, font=fontmedium)
 y_position += 30
 draw_red.text((5, y_position), "HVAC:", fill=0, font=font15)
 draw_red.text((75, y_position), "Boiler Set:", fill=0, font=font15)
 y_position += 15
-draw_black.text((0, y_position), heat_load_forced_air, fill=0, font=font30)
-draw_black.text((75, y_position), boiler_set_point, fill=0, font=font30)
+draw_black.text((0, y_position), heat_load_forced_air, fill=0, font=fontmedium)
+draw_black.text((75, y_position), boiler_set_point, fill=0, font=fontmedium)
 
 
 # metadata at bottom of screen
