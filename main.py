@@ -88,6 +88,7 @@ cj_room_temperature = get_simple_hass_state("hass-ecobee-cj-sensor", "°")
 heat_load_east = get_simple_hass_state("hass-heat-load-east", "%")
 heat_load_west = get_simple_hass_state("hass-heat-load-west", "%")
 heat_load_forced_air = get_simple_hass_state("hass-heat-load-forced-air", "%")
+boiler_set_point = get_simple_hass_state("hass-boiler-set-point", "")
 
 conn = http.client.HTTPSConnection("vanstaveren.us")
 conn.request("GET", "/~trick/epaper/my-current-net-metering.cgi")
@@ -136,8 +137,10 @@ draw_black.text((0, y_position), heat_load_east, fill=0, font=font30)
 draw_black.text((80, y_position), heat_load_west, fill=0, font=font30)
 y_position += 30
 draw_red.text((5, y_position), "Forced Air:", fill=0, font=font15)
+draw_red.text((75, y_position), "Boiler Set:", fill=0, font=font15)
 y_position += 15
 draw_black.text((0, y_position), heat_load_forced_air, fill=0, font=font30)
+draw_black.text((75, y_position), boiler_set_point, fill=0, font=font30)
 
 
 # metadata at bottom of screen
