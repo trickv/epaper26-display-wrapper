@@ -1,0 +1,130 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test-python:
+    name: Test Python Code
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libjpeg-dev fonts-dejavu-core ttf-bitstream-vera
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r test_requirements.txt
+
+    - name: Run Python tests
+      run: |
+        pytest tests/test_main.py -v --tb=short
+
+    - name: Test main.py syntax
+      run: |
+        python -m py_compile main.py
+
+  test-c-build:
+    name: Test C Code Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        # Install basic build tools
+        sudo apt-get install -y build-essential
+
+    - name: Run C build test
+      run: |
+        bash tests/test_c_build.sh
+
+  lint-python:
+    name: Lint Python Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install linting tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pylint
+
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=env,buydisplay-epaper26-example-adaptation
+        # Exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=env,buydisplay-epaper26-example-adaptation
+
+  verify-bmp-generation:
+    name: Verify BMP Generation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libjpeg-dev fonts-dejavu-core ttf-bitstream-vera
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Generate BMPs with test mode
+      run: |
+        python main.py --test || true
+        # Verify the BMP files exist
+        test -f black.bmp || (echo "black.bmp not generated" && exit 1)
+        test -f red.bmp || (echo "red.bmp not generated" && exit 1)
+        # Verify files are not empty
+        test -s black.bmp || (echo "black.bmp is empty" && exit 1)
+        test -s red.bmp || (echo "red.bmp is empty" && exit 1)
+        echo "✓ BMP files generated successfully"
+
+    - name: Upload BMP artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-bmps
+        path: |
+          black.bmp
+          red.bmp
+        retention-days: 5
