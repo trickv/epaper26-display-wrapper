@@ -28,7 +28,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libjpeg-dev fonts-dejavu-core
+        sudo apt-get install -y libjpeg-dev fonts-dejavu-core ttf-bitstream-vera
 
     - name: Install Python dependencies
       run: |
@@ -105,7 +105,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libjpeg-dev fonts-dejavu-core
+        sudo apt-get install -y libjpeg-dev fonts-dejavu-core ttf-bitstream-vera
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 

@@ -87,6 +87,38 @@ def mock_subprocess():
         yield mock
 
 
+
+
+def create_test_globals():
+    """Create a globals dict for exec() with all necessary imports"""
+    import builtins
+
+    # Start with builtins
+    test_globals = {'__builtins__': builtins}
+
+    # Import real modules that we need
+    test_globals['os'] = __import__('os')
+    test_globals['datetime'] = __import__('datetime')
+    test_globals['dateutil'] = __import__('dateutil')
+    test_globals['pytz'] = __import__('pytz')
+    test_globals['argparse'] = __import__('argparse')
+    test_globals['json'] = __import__('json')
+    test_globals['http'] = __import__('http')
+
+    # Import PIL modules
+    from PIL import Image, ImageDraw, ImageFont
+    test_globals['Image'] = Image
+    test_globals['ImageDraw'] = ImageDraw
+    test_globals['ImageFont'] = ImageFont
+
+    # Import filelock
+    from filelock import FileLock, Timeout
+    test_globals['FileLock'] = FileLock
+    test_globals['Timeout'] = Timeout
+
+    return test_globals
+
+
 def test_bmp_generation(temp_dir, mock_http, mock_subprocess, monkeypatch):
     """Test that BMP files are generated with correct properties"""
 
@@ -97,7 +129,8 @@ def test_bmp_generation(temp_dir, mock_http, mock_subprocess, monkeypatch):
     # Mock sys.argv to avoid test mode
     with patch('sys.argv', ['main.py']):
         # Import and run main (will be mocked)
-        exec(open(os.path.join(original_dir, 'main.py')).read())
+        test_globals = create_test_globals()
+        exec(open(os.path.join(original_dir, 'main.py')).read(), test_globals)
 
     # Check that BMP files were created
     assert os.path.exists('black.bmp'), "black.bmp should be generated"
@@ -140,7 +173,8 @@ def test_test_mode(temp_dir, mock_http, monkeypatch):
 
     with patch('sys.argv', ['main.py', '--test']):
         with patch('os.system', mock_system):
-            exec(open(os.path.join(original_dir, 'main.py')).read())
+            test_globals = create_test_globals()
+            exec(open(os.path.join(original_dir, 'main.py')).read(), test_globals)
 
     # In test mode, should call convert and eog
     assert any('convert' in call for call in system_calls), \
@@ -171,7 +205,8 @@ def test_production_mode(temp_dir, mock_http, monkeypatch):
 
     with patch('sys.argv', ['main.py']):
         with patch('os.system', mock_system):
-            exec(open(os.path.join(original_dir, 'main.py')).read())
+            test_globals = create_test_globals()
+            exec(open(os.path.join(original_dir, 'main.py')).read(), test_globals)
 
     # In production mode, should copy files
     assert any('cp black.bmp' in call for call in system_calls), \
@@ -214,11 +249,15 @@ def test_api_unavailable(temp_dir, monkeypatch):
     original_dir = os.getcwd()
     monkeypatch.chdir(temp_dir)
 
-    with patch('http.client.HTTPSConnection', UnavailableMockConnection):
-        with patch('sys.argv', ['main.py', '--test']):
-            with patch('os.system'):
+    def mock_system(cmd):
+        return 0
+
+    with patch('sys.argv', ['main.py', '--test']):
+        with patch('http.client.HTTPSConnection', UnavailableMockConnection):
+            with patch('os.system', mock_system):
                 # Should not raise an exception
-                exec(open(os.path.join(original_dir, 'main.py')).read())
+                test_globals = create_test_globals()
+                exec(open(os.path.join(original_dir, 'main.py')).read(), test_globals)
 
     # Files should still be created
     assert os.path.exists('black.bmp')
