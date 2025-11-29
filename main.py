@@ -119,8 +119,8 @@ draw_red.line((0, y_position, size[0], y_position), fill=0)
 y_position += 3
 
 # Now heating & cooling info:
-draw_red.text((5, y_position), "Office:", fill=0, font=font15)
-draw_red.text((75, y_position), "Guest:", fill=0, font=font15)
+draw_red.text((5, y_position), "2F:", fill=0, font=font15)
+draw_red.text((75, y_position), "MBR:", fill=0, font=font15)
 y_position += 15
 draw_black.text((0, y_position), br_temperature, fill=0, font=fontmedium)
 draw_black.text((75, y_position), cj_room_temperature, fill=0, font=fontmedium)
