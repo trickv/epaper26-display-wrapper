@@ -5,3 +5,20 @@ red.bmp
 black.bmp
 .run-lock
 combined-testmode.bmp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Virtual environments
+venv/
+ENV/
