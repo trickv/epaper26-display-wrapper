@@ -62,15 +62,15 @@ These tests verify the BMP generation functionality without requiring real API a
 
 ### C Build Test (`tests/test_c_build.sh`)
 
-Tests that the C code in the git submodule can be built.
+Verifies that the C code submodule is properly initialized with all necessary source files.
 
-**Features:**
-- Initializes git submodule if needed
-- Verifies Makefile exists
-- Attempts to build the C code
-- Falls back to source verification if build dependencies are missing
+**What it tests:**
+- Submodule is properly initialized
+- Makefile exists
+- C source files are present (*.c files)
+- Attempts compilation (optional - failure is acceptable)
 
-**Note:** This test may run in "source verification mode" on systems without WiringPi or GPIO hardware support.
+**Important:** This test does **not** require WiringPi or Raspberry Pi hardware. Build failure is expected and acceptable on non-RPi systems, as long as the source files are present. The test verifies repository structure, not compilation success.
 
 ## Dependencies
 
@@ -91,8 +91,11 @@ For local development (Ubuntu/Debian):
 sudo apt-get install -y \
     libjpeg-dev \
     fonts-dejavu-core \
+    ttf-bitstream-vera \
     build-essential
 ```
+
+**Note:** `ttf-bitstream-vera` provides the Vera font family required by main.py for rendering text on the e-paper display.
 
 ## Continuous Integration
 
@@ -167,10 +170,11 @@ pip install --upgrade Pillow
 ```
 
 ### C build test fails
-This is expected on systems without WiringPi. The test should fall back to source verification mode. If it still fails, ensure git submodules are initialized:
+The C build test only requires the submodule and source files to be present. **Build failure is acceptable** since WiringPi is Raspberry Pi-specific. If the test fails completely, ensure git submodules are initialized:
 ```bash
 git submodule update --init --recursive
 ```
+The test will show "⚠ Build failed (this is expected without wiringPi library)" but should still pass.
 
 ### Font errors in tests
 Install the required font package:
